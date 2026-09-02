@@ -13,7 +13,6 @@ export function ModeToggle() {
         else setTheme("dark");
       }
     }
-    className="cursor-pointer"
     >
       <Sun className="hidden dark:flex" />
       <Moon className="dark:hidden" />
