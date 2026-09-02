@@ -1,2 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Syne:wght@400..800&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
 :root {
+  --font-sans-family: "Space Grotesk", ui-sans, system-ui, sans-serif; 
+
+  --foreground: oklch(0.21 0.04 286);
+  --background: oklch(0.98 0.006 290);
+
+  --border: oklch(0.9 0.018 290);
+
+  --page-gradient: radial-gradient(
+    120% 80% at 50% -10%,
+    oklch(0.93 0.05 295) 0%,
+    oklch(0.965 0.02 292) 42%,
+    oklch(0.98 0.006 290) 100%
+  )
+}
+
+.dark {
+  --foreground: oklch(0.93 0.022 292);
+  --background: oklch(0.14 0.032 288);
+
+  --border: oklch(0.315 0.072 288);
+
+  --page-gradient: radial-gradient(
+    120% 80% at 50% -10%,
+    oklch(0.36 0.12 288) 0%,
+    oklch(0.21 0.08 288) 42%,
+    oklch(0.11 0.03 288) 100%
+  )
+}
+
+@theme inline {
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  --color-border: var(--border);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    font-family: var(--font-sans-family);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    background-image: var(--page-gradient);
+    background-attachment: fixed;
+  }
 }
