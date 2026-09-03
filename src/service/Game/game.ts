@@ -10,7 +10,7 @@ export async function getGames(
 ): Promise<Game[]> {
   const timestamp = selectedDate.getTime();
   const response = await fetch(
-    `http://localhost:3000/games?selectedDate=${timestamp}`
+    `${import.meta.env.VITE_BACKEND_URL}/games?selectedDate=${timestamp}`
   );
 
   if (!response.ok) {
