@@ -10,7 +10,7 @@ import PlatformFilter from "./PlatformFilter";
 type DateNavigatorProps = {
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
-  setSelectedPlatform: (platform: number) => void;
+  setSelectedPlatform: (platform: number | undefined) => void;
 }
 
 const DatePicker = (
