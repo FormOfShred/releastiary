@@ -3,6 +3,7 @@ import { registerGameRoutes } from './Game/game';
 import cors from "cors";
 
 const app: Express = express();
+const port = process.env.PORT || 4000 
 
 app.use(cors());
 
@@ -42,4 +43,6 @@ app.get('/', (req: Request, res: Response) => {
 
 registerGameRoutes(app);
 
-app.listen(3000);
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`)
+})
