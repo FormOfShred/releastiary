@@ -57,7 +57,7 @@ const GameCard = ({ game }: GameCardProps) => {
       <Card className="bg-background flex flex-col h-full">
         <GameCover cover={cover} name={name}/>
         <CardHeader className="mt-auto">
-          <div className="flex gap-1">
+          <div className="flex gap-1 flex-wrap">
             {
               platforms.map((platform) => (
                 <PlatformBadge key={platform} platform={platform} />

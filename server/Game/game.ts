@@ -7,8 +7,13 @@ export function registerGameRoutes(app: Express) {
   app.get(`/games`, async (req: Request, res: Response) => {
     try {
       const selectedDate = Number(req.query.selectedDate);
+      const selectedPlatform =
+        req.query.selectedPlatform !== undefined
+          ? Number(req.query.selectedPlatform)
+          : undefined;
 
-       if (!Number.isFinite(selectedDate)) {
+
+      if (!Number.isFinite(selectedDate)) {
         res.status(400).json({
           error: 'selectedDate must be a valid Unix timestamp',
         });
@@ -21,15 +26,23 @@ export function registerGameRoutes(app: Express) {
       const endOfDay = new Date(selectedDate);
       endOfDay.setHours(23, 59, 59, 999);
 
+      const platformQuery =
+        selectedPlatform !== undefined
+          ? `& platforms = (${selectedPlatform})`
+          : '';
+
+
       const games = await IGDBRequest<Game[]>(
         'games',
         `
           fields id, name, platforms, cover;
           where first_release_date >= ${Math.floor(startOfDay.getTime() / 1000)}
-            & first_release_date <= ${Math.floor(endOfDay.getTime() / 1000)};
+            & first_release_date <= ${Math.floor(endOfDay.getTime() / 1000)}
+            ${platformQuery};
           limit 500;
         `
       );
+
 
       const [covers] = await Promise.all(
         [

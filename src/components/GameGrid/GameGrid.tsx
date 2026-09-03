@@ -7,18 +7,19 @@ import { Skeleton } from "../ui/skeleton";
 
 type GameGridProps = {
   selectedDate: Date;
+  selectedPlatform?: number;
 }
 
-const GameGrid = ({ selectedDate }: GameGridProps) => {
+const GameGrid = ({ selectedDate, selectedPlatform }: GameGridProps) => {
   const [games, setGames] = useState<Game[]>([]);
   
   const [loadingGames, setLoadingGames] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchGames = async ({ selectedDate }: {selectedDate: Date}) => {
+    const fetchGames = async ({ selectedDate, selectedPlatform }: {selectedDate: Date, selectedPlatform?: number}) => {
       setLoadingGames(true);
       try {
-        const data = await getGames({selectedDate});
+        const data = await getGames({selectedDate, selectedPlatform});
         setGames(data);
       } catch (error) {
         console.error(error);
@@ -27,8 +28,8 @@ const GameGrid = ({ selectedDate }: GameGridProps) => {
       }
     }
 
-    fetchGames({selectedDate});
-  }, [selectedDate]);
+    fetchGames({selectedDate, selectedPlatform});
+  }, [selectedDate, selectedPlatform]);
 
   return (
     <div className="max-w-6xl mx-auto p-5 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">

@@ -16,3 +16,30 @@ export const formatPlatform = (platform: number) => {
         return undefined;
   }
 }
+
+export const PLATFORMS = [
+  { 
+    name: "PC",
+    id: 6
+  },
+  { 
+    name: "PS5",
+    id: 167
+  },
+  { 
+    name: "XSX",
+    id: 169
+  },
+  { 
+    name: "Switch",
+    id: 130
+  },
+  { 
+    name: "Switch 2",
+    id: 508
+  },
+  { 
+    name: "iOS",
+    id: 39
+  }
+]

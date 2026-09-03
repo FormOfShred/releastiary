@@ -5,10 +5,12 @@ import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { addDays } from "date-fns";
+import PlatformFilter from "./PlatformFilter";
 
 type DateNavigatorProps = {
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
+  setSelectedPlatform: (platform: number) => void;
 }
 
 const DatePicker = (
@@ -56,7 +58,7 @@ const DatePicker = (
   )
 };
 
-const DateNavigator = ({ selectedDate, setSelectedDate }: DateNavigatorProps) => {
+const DateNavigator = ({ selectedDate, setSelectedDate, setSelectedPlatform }: DateNavigatorProps) => {
   const [calendarMonth, setCalendarMonth] = useState<Date>(new Date());
 
   const datePickerLabel = isToday(selectedDate) ? "Today" : formatDate(selectedDate, true);
@@ -77,46 +79,51 @@ const DateNavigator = ({ selectedDate, setSelectedDate }: DateNavigatorProps) =>
 
   return (
     <div className="border-b bg-background/50">
-      <div className="max-w-6xl mx-auto p-5 flex justify-between items-center flex-wrap gap-2">
-        <div className="flex gap-1">
-          <Button 
-            variant="outline" 
-            size="icon-lg" 
-            className="hover:bg-accent/10 hover:border-accent/40 hover:text-accent"
-            onClick={goToPreviousDay}
+      <div className="max-w-6xl mx-auto p-5">
+        <div className="flex justify-between items-center flex-wrap gap-2">
+          <div className="flex gap-1">
+            <Button 
+              variant="outline" 
+              size="icon-lg" 
+              className="hover:bg-accent/10 hover:border-accent/40 hover:text-accent"
+              onClick={goToPreviousDay}
+            >
+              <ChevronLeft />
+            </Button>
+            <DatePicker 
+              label={datePickerLabel} 
+              date={selectedDate} 
+              setDate={setSelectedDate}
+              month={calendarMonth}
+              setMonth={setCalendarMonth}
+            />
+            <Button 
+              variant="outline" 
+              size="icon-lg" 
+              className="hover:bg-accent/10 hover:border-accent/40 hover:text-accent"
+              onClick={goToNextDay}
+            >
+              <ChevronRight />
+            </Button>
+          </div>
+          <div 
+            className="flex gap-1"
           >
-            <ChevronLeft />
-          </Button>
-          <DatePicker 
-            label={datePickerLabel} 
-            date={selectedDate} 
-            setDate={setSelectedDate}
-            month={calendarMonth}
-            setMonth={setCalendarMonth}
-          />
-          <Button 
-            variant="outline" 
-            size="icon-lg" 
-            className="hover:bg-accent/10 hover:border-accent/40 hover:text-accent"
-            onClick={goToNextDay}
-          >
-            <ChevronRight />
-          </Button>
+            <span 
+              className="font-bold text-3xl"
+            >
+              {formatDate(selectedDate)}
+            </span>
+            <span 
+              className="text-sm text-muted-foreground"
+            >
+              {selectedDate.getFullYear()}
+            </span>
+          </div>
         </div>
-        <div 
-          className="flex gap-1"
-        >
-          <span 
-            className="font-bold text-3xl"
-          >
-            {formatDate(selectedDate)}
-          </span>
-          <span 
-            className="text-sm text-muted-foreground"
-          >
-            {selectedDate.getFullYear()}
-          </span>
-        </div>
+        <PlatformFilter
+          setSelectedPlatform={setSelectedPlatform}
+        />
       </div>
     </div>
   )

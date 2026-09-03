@@ -4,11 +4,19 @@ import { useState } from "react";
 
 const Home = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedPlatform, setSelectedPlatform] = useState<number | undefined>();
   
   return (
     <div>
-      <DateNavigator selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-      <GameGrid selectedDate={selectedDate} />
+      <DateNavigator 
+        selectedDate={selectedDate} 
+        setSelectedDate={setSelectedDate} 
+        setSelectedPlatform={setSelectedPlatform}
+      />
+      <GameGrid 
+        selectedDate={selectedDate}
+        selectedPlatform={selectedPlatform}
+      />
     </div>
   )
 }
