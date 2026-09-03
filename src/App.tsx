@@ -1,15 +1,13 @@
-import DateNavigator from "./components/DateNavigator/DateNavigator"
-import GameGrid from "./components/GameGrid/GameGrid"
 import Header from "./components/Header/Header"
 import { ThemeProvider } from "./context/ThemeProvider/ThemeProvider"
+import Home from "./pages/Home"
 
 function App() {
 
   return (
     <ThemeProvider>
       <Header />
-      <DateNavigator />
-      <GameGrid />
+      <Home />
     </ThemeProvider>
   )
 }

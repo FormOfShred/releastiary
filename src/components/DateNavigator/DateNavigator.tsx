@@ -6,6 +6,11 @@ import { Calendar } from "../ui/calendar";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { addDays } from "date-fns";
 
+type DateNavigatorProps = {
+  selectedDate: Date;
+  setSelectedDate: (date: Date) => void;
+}
+
 const DatePicker = (
   {
     label,
@@ -51,8 +56,7 @@ const DatePicker = (
   )
 };
 
-const DateNavigator = () => {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+const DateNavigator = ({ selectedDate, setSelectedDate }: DateNavigatorProps) => {
   const [calendarMonth, setCalendarMonth] = useState<Date>(new Date());
 
   const datePickerLabel = isToday(selectedDate) ? "Today" : formatDate(selectedDate, true);

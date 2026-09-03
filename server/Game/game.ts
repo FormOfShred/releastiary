@@ -4,12 +4,21 @@ import { Game } from './types';
 import { getCover } from '../utils/image';
 
 export function registerGameRoutes(app: Express) {
-  app.get(`/games/today`, async (_req: Request, res: Response) => {
+  app.get(`/games`, async (req: Request, res: Response) => {
     try {
-      const startOfDay = new Date();
+      const selectedDate = Number(req.query.selectedDate);
+
+       if (!Number.isFinite(selectedDate)) {
+        res.status(400).json({
+          error: 'selectedDate must be a valid Unix timestamp',
+        });
+        return;
+      }
+      
+      const startOfDay = new Date(selectedDate);
       startOfDay.setHours(0, 0, 0, 0);
 
-      const endOfDay = new Date();
+      const endOfDay = new Date(selectedDate);
       endOfDay.setHours(23, 59, 59, 999);
 
       const games = await IGDBRequest<Game[]>(

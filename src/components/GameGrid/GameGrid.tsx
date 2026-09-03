@@ -1,27 +1,47 @@
 import { useEffect, useState } from "react";
 import GameCard from "./GameCard";
 import type { Game } from "@/types/game";
-import { getTodaysGames } from "@/service/Game/game";
+import { getGames } from "@/service/Game/game";
+import { Card, CardHeader } from "../ui/card";
+import { Skeleton } from "../ui/skeleton";
 
-const GameGrid = () => {
+type GameGridProps = {
+  selectedDate: Date;
+}
+
+const GameGrid = ({ selectedDate }: GameGridProps) => {
   const [games, setGames] = useState<Game[]>([]);
+  
+  const [loadingGames, setLoadingGames] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchGames = async () => {
+    const fetchGames = async ({ selectedDate }: {selectedDate: Date}) => {
+      setLoadingGames(true);
       try {
-        const data = await getTodaysGames();
+        const data = await getGames({selectedDate});
         setGames(data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoadingGames(false)
       }
     }
 
-    fetchGames();
-  }, []);
+    fetchGames({selectedDate});
+  }, [selectedDate]);
 
   return (
     <div className="max-w-6xl mx-auto p-5 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
       {
+        loadingGames ? 
+          <Card className="bg-background">
+            <Skeleton className="object-cover mx-4 rounded-sm h-80" />
+            <CardHeader>
+              <Skeleton className="h-[15px] w-[20px] rounded-full" />
+              <Skeleton className="h-[20px] w-[100px] rounded-full" />
+            </CardHeader>
+          </Card>
+        :
         games.map((game) => (
           <GameCard key={game.id} game={game} />
         ))

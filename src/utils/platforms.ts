@@ -8,6 +8,10 @@ export const formatPlatform = (platform: number) => {
         return "Switch 2";
     case 167:
         return "PS5";
+    case 130:
+        return "Switch";
+    case 39:
+        return "iOS";
     default:
         return undefined;
   }
