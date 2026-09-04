@@ -2,6 +2,7 @@ import type { Express, Request, Response } from 'express';
 import { IGDBRequest } from '..';
 import { Game } from './types';
 import { getCover } from '../utils/image';
+import { getMostWantToPlay } from '../utils/popularity';
 
 export function registerGameRoutes(app: Express) {
   app.get(`/games`, async (req: Request, res: Response) => {
@@ -43,8 +44,8 @@ export function registerGameRoutes(app: Express) {
         `
       );
 
-
-      const [covers] = await Promise.all(
+      // Get additional information
+      const [covers, wantToPlay] = await Promise.all(
         [
           getCover(
             [
@@ -54,10 +55,14 @@ export function registerGameRoutes(app: Express) {
                   .filter((cover): cover is number => typeof cover === 'number')
               )
             ]
-          )
+          ),
+          getMostWantToPlay(
+            games.map(game => game.id)
+          ),
         ]
       );
 
+      // Mapping
       const coverMap = new Map(
         covers.map(cover => [
           cover.id,
@@ -65,15 +70,21 @@ export function registerGameRoutes(app: Express) {
         ])
       );
 
+      const wantToPlayMap = new Map(
+        wantToPlay.map(item => [item.game_id, item.value])
+      );
+
        const result = games
         .map(game => {
           return {
             ...game,
+            popularity_value: wantToPlayMap.get(game.id) ?? 0,
             cover: game.cover
               ? coverMap.get(game.cover) ?? ''
               : '',
           };
         })
+        .sort((a, b) => b.popularity_value - a.popularity_value);
 
       res.json(result);
     } catch (error) {

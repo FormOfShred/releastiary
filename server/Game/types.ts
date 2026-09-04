@@ -3,4 +3,5 @@ export type Game = {
   name: string;
   platforms: number[];
   cover: number;
+  popularity_value: number;
 }

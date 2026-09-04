@@ -8,7 +8,7 @@ const IGDBDialog = () => {
       <CircleQuestionMark height={20} />
     </DialogTrigger>
     <DialogContent className="bg-background">
-      <DialogHeader>
+      <DialogHeader className="flex flex-col gap-3">
         <DialogTitle>
           Inaccurate data?
         </DialogTitle>
@@ -36,6 +36,14 @@ const IGDBDialog = () => {
           >
             repository
           </a>
+        </DialogDescription>
+        <DialogTitle>
+          Data taking a long time to load?
+        </DialogTitle>
+        <DialogDescription>
+          Since I'm using a free service to host the website and the backend,
+          it might take some time for the data to be gathered, try refreshing or
+          going to another day.
         </DialogDescription>
       </DialogHeader>
     </DialogContent>
