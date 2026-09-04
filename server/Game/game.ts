@@ -75,6 +75,9 @@ export function registerGameRoutes(app: Express) {
       );
 
        const result = games
+        .filter(game =>
+          wantToPlayMap.has(game.id)
+        )
         .map(game => {
           return {
             ...game,
