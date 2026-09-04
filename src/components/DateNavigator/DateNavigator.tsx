@@ -78,7 +78,7 @@ const DateNavigator = ({ selectedDate, setSelectedDate, setSelectedPlatform }: D
   };
 
   return (
-    <div className="border-b bg-background/50">
+    <div className="border-b bg-background/50 sticky top-0">
       <div className="max-w-6xl mx-auto p-5">
         <div className="flex justify-between items-center flex-wrap gap-2">
           <div className="flex gap-1">
