@@ -3,7 +3,7 @@ import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 const PlatformFilter = ({setSelectedPlatform} : {setSelectedPlatform: (platform: number | undefined) => void;}) => {
   return (
-    <div className="pt-5 justify-end flex">
+    <div className="pt-5 flex sm:justify-end">
       <Tabs defaultValue={0}>
         <TabsList>
           <TabsTrigger 
