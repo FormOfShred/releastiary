@@ -2,13 +2,28 @@ import { useEffect, useState } from "react";
 import GameCard from "./GameCard";
 import type { Game } from "@/types/game";
 import { getGames } from "@/service/Game/game";
-import { Card, CardHeader } from "../ui/card";
-import { Skeleton } from "../ui/skeleton";
 import { Spinner } from "../ui/spinner";
+import GameCardSkeleton from "./GameCardSkeleton";
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "../ui/empty";
+import { Gamepad } from "lucide-react";
 
 type GameGridProps = {
   selectedDate: Date;
   selectedPlatform?: number;
+}
+
+const EmptyGameGrid = () => {
+  return (
+    <Empty className="border border-dashed bg-muted/30 h-100">
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <Gamepad />
+        </EmptyMedia>
+        <EmptyTitle>No games</EmptyTitle>
+        <EmptyDescription>No games found for this date</EmptyDescription>
+      </EmptyHeader>
+    </Empty>
+  )
 }
 
 const GameGrid = ({ selectedDate, selectedPlatform }: GameGridProps) => {
@@ -37,22 +52,19 @@ const GameGrid = ({ selectedDate, selectedPlatform }: GameGridProps) => {
       {
         loadingGames ? 
           <>
-            <Card className="bg-background">
-              <Skeleton className="object-cover mx-4 rounded-sm h-80" />
-              <CardHeader>
-                <Skeleton className="h-[15px] w-[20px] rounded-full" />
-                <Skeleton className="h-[20px] w-[100px] rounded-full" />
-              </CardHeader>
-            </Card>
+            <GameCardSkeleton />
             <div className="flex gap-3 col-span-2 items-center">
               <Spinner className="size-8" />
               <span>Taking too long? Try refreshing</span>
             </div>
           </>
         :
-        games.map((game) => (
-          <GameCard key={game.id} game={game} />
-        ))
+        games.length > 0 ? 
+          games.map((game) => (
+            <GameCard key={game.id} game={game} />
+          ))
+          : 
+          <EmptyGameGrid />
       }
     </div>
   )
