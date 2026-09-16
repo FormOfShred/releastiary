@@ -45,22 +45,19 @@ export function registerGameRoutes(app: Express) {
       );
 
       // Get additional information
-      const [covers, wantToPlay] = await Promise.all(
-        [
-          getCover(
-            [
+      const [covers, wantToPlay] = games.length
+        ? await Promise.all([
+            getCover([
               ...new Set(
                 games
                   .map(game => game.cover)
                   .filter((cover): cover is number => typeof cover === 'number')
-              )
-            ]
-          ),
-          getMostWantToPlay(
-            games.map(game => game.id)
-          ),
-        ]
-      );
+              ),
+            ]),
+            getMostWantToPlay(games.map(game => game.id)),
+          ])
+        : [[], []];
+
 
       // Mapping
       const coverMap = new Map(
